@@ -1,0 +1,5 @@
+{
+    "jscodehints.detectedExclusions": [
+        "C:/git/carousel-dev/bower_components/lodash/vendor/underscore/underscore.js"
+    ]
+}
