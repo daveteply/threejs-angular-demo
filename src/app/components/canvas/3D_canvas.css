@@ -1,0 +1,9 @@
+#canvas-container {
+    position: relative;
+}
+
+.controls-container {
+    position: relative;
+    top: -30px;
+    cursor: pointer;
+}
