@@ -4,11 +4,31 @@
     angular.module('3js0').factory('utilFactory', UtilityFactoryFunction);
 
     /** @ngInject */
-    function UtilityFactoryFunction() {
+    function UtilityFactoryFunction($window) {
         var svc = this;
 
-        svc.getRandomDecimal = function (min, max) {
-            return (Math.random() * (min - max) + max);
+        svc.getRandomRBG = function () {
+            if ($window.RColor) {
+                var color = new $window.RColor;
+                return color.get(true);
+            }
+        };
+
+        svc.getRandomDecimal = function (min, max, includeNegative) {
+            var randDecimal = (Math.random() * (min - max) + max);
+            var midPoint = max - min;
+            if (includeNegative && randDecimal < midPoint) {
+                randDecimal *= -1;
+            }
+            return randDecimal;
+        };
+
+        svc.getRandomVector = function (min, max, includeNegative) {
+            return {
+                x: svc.getRandomDecimal(min, max, includeNegative),
+                y: svc.getRandomDecimal(min, max, includeNegative),
+                z: svc.getRandomDecimal(min, max, includeNegative)
+            };
         };
 
         svc.resetLimits = function (shapeObj, xLimit, yLimit, zLimit) {

@@ -9,80 +9,58 @@
 
         var three = $window.THREE;
         var MIN = 0.01;
-        var MAX = 0.05;
+        var MAX = 0.025;
 
         svc.shapeObjs = [];
 
-        var getDefaultMaterial = function () {
+        var getPhongMaterial = function (color) {
             return new three.MeshPhongMaterial({
-                color: 0xffffff,
+                color: color ? color : 0xffffff,
                 specular: 0x555555,
                 shininess: 30
             });
         };
 
-        var getRandomVector = function () {
+        svc.getShape = function (shapeName, material) {
+            if (!material) {
+                material = getPhongMaterial(utilFactory.getRandomRBG());
+            }
+            var geometry;
+            switch (shapeName) {
+
+            case 'cube':
+                geometry = new three.BoxGeometry(1, 1, 1);
+                break;
+
+            case 'sphere':
+                geometry = new three.SphereGeometry(0.25, 32, 24);
+                break;
+
+            case 'torus':
+                geometry = new three.TorusGeometry(0.25, 0.1, 32, 24);
+                break;
+
+            case 'cone':
+                geometry = new three.ConeGeometry(0.3, 0.5, 24);
+                break;
+
+            default:
+                geometry = new three.BoxGeometry(1, 1, 1);
+            }
+
             return {
-                x: utilFactory.getRandomDecimal(MIN, MAX),
-                y: utilFactory.getRandomDecimal(MIN, MAX),
-                z: utilFactory.getRandomDecimal(MIN, MAX)
+                shape: new three.Mesh(geometry, material),
+                rotation: utilFactory.getRandomVector(MIN, MAX, true),
+                locationVelocity: utilFactory.getRandomVector(MIN, MAX, true)
             };
-        };
-
-        svc.getCube = function (material) {
-            if (!material) {
-                material = getDefaultMaterial();
-            }
-            var geometry = new three.BoxGeometry(1, 1, 1);
-            return {
-                shape: new three.Mesh(geometry, material),
-                rotation: getRandomVector(),
-                locationVelocity: getRandomVector()
-            };
-        };
-
-        svc.getTorus = function (material) {
-            if (!material) {
-                material = getDefaultMaterial();
-            }
-            var geometry = new three.TorusGeometry(0.25, 0.1, 32, 24);
-            return {
-                shape: new three.Mesh(geometry, material),
-                rotation: getRandomVector(),
-                locationVelocity: getRandomVector()
-            }
-        };
-
-        svc.getSphere = function (material) {
-            if (!material) {
-                material = getDefaultMaterial();
-            }
-            var geometry = new three.SphereGeometry(0.25, 32, 24);
-            return {
-                shape: new three.Mesh(geometry, material),
-                rotation: getRandomVector(),
-                locationVelocity: getRandomVector()
-            }
-        };
-
-        svc.getCone = function (material) {
-            if (!material) {
-                material = getDefaultMaterial();
-            }
-            var geometry = new three.ConeGeometry(0.3, 0.5, 24);
-            return {
-                shape: new three.Mesh(geometry, material),
-                rotation: getRandomVector(),
-                locationVelocity: getRandomVector()
-            }
         };
 
         svc.buildShapes = function () {
-            for (var i = 0; i < 5; i++) {
-                svc.shapeObjs.push(svc.getCube());
-                svc.shapeObjs.push(svc.getTorus());
-                svc.shapeObjs.push(svc.getSphere());
-                svc.shapeObjs.push(svc.getCone());
+            for (var i = 0; i < 15; i++) {
+                svc.shapeObjs.push(svc.getShape('cube'));
+                svc.shapeObjs.push(svc.getShape('torus'));
+                svc.shapeObjs.push(svc.getShape('sphere'));
+                svc.shapeObjs.push(svc.getShape('cone'));
             }
         };
 
