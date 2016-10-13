@@ -29,7 +29,7 @@
             switch (shapeName) {
 
             case 'cube':
-                geometry = new three.BoxGeometry(1, 1, 1);
+                geometry = new three.BoxGeometry(0.5, 0.5, 0.5);
                 break;
 
             case 'sphere':
@@ -48,11 +48,17 @@
                 geometry = new three.BoxGeometry(1, 1, 1);
             }
 
-            return {
+            var targetShape = {
                 shape: new three.Mesh(geometry, material),
                 rotation: utilFactory.getRandomVector(MIN, MAX, true),
                 locationVelocity: utilFactory.getRandomVector(MIN, MAX, true)
             };
+            targetShape.shape.castShadow = true;
+            var initialLocation = utilFactory.getRandomVector(-2.0, 2.0, true)
+            targetShape.shape.position.x = initialLocation.x;
+            targetShape.shape.position.y = initialLocation.y;
+            targetShape.shape.position.z = initialLocation.z;
+            return targetShape;
         };
 
         svc.buildShapes = function () {
