@@ -21,10 +21,8 @@
             });
         };
 
-        svc.getShape = function (shapeName, material) {
-            if (!material) {
-                material = getPhongMaterial(utilFactory.getRandomRBG());
-            }
+        svc.getShape = function (shapeName, startPosition) {
+            var material = getPhongMaterial(utilFactory.getRandomRBG());
             var geometry;
             switch (shapeName) {
 
@@ -48,42 +46,45 @@
                 geometry = new three.BoxGeometry(1, 1, 1);
             }
 
-            var targetShape = {
-                shape: new three.Mesh(geometry, material),
+            var targetShape = new three.Mesh(geometry, material);
+            targetShape.position.x = startPosition.x;
+            targetShape.position.y = startPosition.y;
+            targetShape.position.z = startPosition.z;
+            targetShape.castShadow = true;
+
+            return {
+                shape: targetShape,
                 rotation: utilFactory.getRandomVector(MIN, MAX, true),
                 locationVelocity: utilFactory.getRandomVector(MIN, MAX, true)
             };
-            targetShape.shape.castShadow = true;
-            var initialLocation = utilFactory.getRandomVector(-2.0, 2.0, true)
-            targetShape.shape.position.x = initialLocation.x;
-            targetShape.shape.position.y = initialLocation.y;
-            targetShape.shape.position.z = initialLocation.z;
-            return targetShape;
         };
 
         svc.buildShapes = function () {
-            for (var i = 0; i < 15; i++) {
-                svc.shapeObjs.push(svc.getShape('cube'));
-                svc.shapeObjs.push(svc.getShape('torus'));
-                svc.shapeObjs.push(svc.getShape('sphere'));
-                svc.shapeObjs.push(svc.getShape('cone'));
+            for (var i = 0; i < 10; i++) {
+                svc.shapeObjs.push(svc.getShape('cube', utilFactory.getRandomVector(-2.0, 2.0, true)));
+                svc.shapeObjs.push(svc.getShape('torus', utilFactory.getRandomVector(-2.0, 2.0, true)));
+                svc.shapeObjs.push(svc.getShape('sphere', utilFactory.getRandomVector(-2.0, 2.0, true)));
+                svc.shapeObjs.push(svc.getShape('cone', utilFactory.getRandomVector(-2.0, 2.0, true)));
             }
         };
 
         svc.updatePos = function () {
             angular.forEach(svc.shapeObjs, function (shapeObj) {
-                if (shapeObj.shape.rotation) { // ensure it's a THREE shape
+                shapeObj.shape.rotation.x += shapeObj.rotation.x;
+                shapeObj.shape.rotation.y += shapeObj.rotation.y;
+                shapeObj.shape.rotation.z += shapeObj.rotation.z;
 
-                    shapeObj.shape.rotation.x += shapeObj.rotation.x;
-                    shapeObj.shape.rotation.y += shapeObj.rotation.y;
-                    shapeObj.shape.rotation.z += shapeObj.rotation.z;
+                shapeObj.shape.position.x += shapeObj.locationVelocity.x;
+                shapeObj.shape.position.y += shapeObj.locationVelocity.y;
+                shapeObj.shape.position.z += shapeObj.locationVelocity.z;
+                utilFactory.resetLimits(shapeObj, 2.0, 2.0, 1.0);
+            });
+        };
 
-                    shapeObj.shape.position.x += shapeObj.locationVelocity.x;
-                    shapeObj.shape.position.y += shapeObj.locationVelocity.y;
-                    shapeObj.shape.position.z += shapeObj.locationVelocity.z;
-
-                    utilFactory.resetLimits(shapeObj, 2.0, 2.0, 2.0);
-                }
+        svc.updateShapeProps = function (intersects) {
+            angular.forEach(intersects, function (intersect) {
+                intersect.object.material.wireframe = true;
+                intersect.object.material.emissive.setHex(0xff0000);
             });
         };
 

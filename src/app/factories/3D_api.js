@@ -15,6 +15,7 @@
                 svc.renderer = new three.WebGLRenderer({
                     canvas: canvas
                 });
+                //svc.renderer.setPixelRatio($window.devicePixelRatio);
                 svc.renderer.setSize(width, height);
             };
 
@@ -24,6 +25,14 @@
                 svc.camera.updateProjectionMatrix();
             };
 
+            svc.detectObjectIntersection = function (xPos, yPos) {
+                svc.raycaster.setFromCamera({
+                    x: xPos,
+                    y: yPos
+                }, svc.camera);
+                return svc.raycaster.intersectObjects(svc.scene.children);
+            };
+
             svc.setUpScene = function (width, height) {
 
                 // scene
@@ -31,15 +40,18 @@
 
                 // lights
                 var dirLight = new three.DirectionalLight(0xffffff, 1);
-                dirLight.position.set(100, 100, 50);
+                dirLight.position.set(100, 100, 50).normalize();
                 svc.scene.add(dirLight);
 
                 var ambLight = new three.AmbientLight(0x404040);
                 svc.scene.add(ambLight);
 
                 // camera
-                svc.camera = new three.PerspectiveCamera(45, width / height, 0.1, 100);
+                svc.camera = new three.PerspectiveCamera(70, width / height, 1, 10000);
                 svc.camera.position.z = 3;
+
+                // raycaster
+                svc.raycaster = new three.Raycaster();
             };
 
             svc.addShapes = function (shapeObjs) {
