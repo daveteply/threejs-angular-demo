@@ -7,28 +7,18 @@
     function UtilityFactoryFunction($window) {
         var svc = this;
 
-        svc.getRandomRBG = function () {
-            if ($window.RColor) {
-                var color = new $window.RColor;
-                return color.get(true);
-            }
+        var three = $window.THREE;
+
+        svc.getRandomDecimal = function (min, max) {
+            return (Math.random() * (min - max) + max);
         };
 
-        svc.getRandomDecimal = function (min, max, includeNegative) {
-            var randDecimal = (Math.random() * (min - max) + max);
-            var midPoint = max - min;
-            if (includeNegative && randDecimal < midPoint) {
-                randDecimal *= -1;
-            }
-            return randDecimal;
-        };
-
-        svc.getRandomVector = function (min, max, includeNegative) {
-            return {
-                x: svc.getRandomDecimal(min, max, includeNegative),
-                y: svc.getRandomDecimal(min, max, includeNegative),
-                z: svc.getRandomDecimal(min, max, includeNegative)
-            };
+        svc.getRandomVector = function (min, max) {
+            return new three.Vector3(
+                svc.getRandomDecimal(min, max),
+                svc.getRandomDecimal(min, max),
+                svc.getRandomDecimal(min, max)
+            );
         };
 
         svc.resetLimits = function (shapeObj, xLimit, yLimit, zLimit) {
@@ -38,7 +28,7 @@
             if (shapeObj.shape.position.y >= yLimit || shapeObj.shape.position.y <= (-1 * yLimit)) {
                 shapeObj.locationVelocity.y *= -1;
             }
-            if (shapeObj.shape.position.z >= 1.5 || shapeObj.shape.position.z <= (-4 * zLimit)) {
+            if (shapeObj.shape.position.z >= -2.0 || shapeObj.shape.position.z <= (-4 * zLimit)) {
                 shapeObj.locationVelocity.z *= -1;
             }
         };
