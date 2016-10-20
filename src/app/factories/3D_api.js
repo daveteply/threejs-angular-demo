@@ -47,7 +47,7 @@
                 svc.scene.add(ambLight);
 
                 // camera
-                svc.camera = new three.PerspectiveCamera(45, width / height, 1, 10000);
+                svc.camera = new three.PerspectiveCamera(70, width / height, 1, 10000);
                 svc.camera.position.z = 3;
 
                 // raycaster

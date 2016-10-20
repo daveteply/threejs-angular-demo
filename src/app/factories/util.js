@@ -34,7 +34,7 @@
             if (shapeObj.shape.position.y >= yLimit || shapeObj.shape.position.y <= (-1 * yLimit)) {
                 shapeObj.locationVelocity.y *= -1;
             }
-            if (shapeObj.shape.position.z >= 1.0 || shapeObj.shape.position.z <= (-4 * zLimit)) {
+            if (shapeObj.shape.position.z >= -1.0 || shapeObj.shape.position.z <= (-4 * zLimit)) {
                 shapeObj.locationVelocity.z *= -1;
             }
         };

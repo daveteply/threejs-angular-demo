@@ -77,7 +77,7 @@
         svc.updateShapeProps = function (intersects) {
             angular.forEach(intersects, function (intersect) {
                 intersect.object.material.wireframe = true;
-                intersect.object.material.emissive.setHex(0xff0000);
+                //intersect.object.material.emissive.setHex(0xff0000);
             });
         };
 
