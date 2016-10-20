@@ -11,12 +11,7 @@
 
         svc.shapeObjs = [];
 
-        svc.getShape = function (shapeName) {
-            var material = new three.MeshPhongMaterial({
-                color: Math.random() * 0xffffff,
-                specular: 0x555555,
-                shininess: 15
-            })
+        svc.getShape = function (shapeName, textureMaterial) {
             var geometry;
             switch (shapeName) {
 
@@ -40,7 +35,7 @@
                 geometry = new three.BoxGeometry(1, 1, 1);
             }
 
-            var targetShape = new three.Mesh(geometry, material);
+            var targetShape = new three.Mesh(geometry, textureMaterial);
             var startPosition = utilFactory.getRandomVector(-2.0, 2.0);
             if (startPosition.z < 0) {
                 startPosition.z = 0;
@@ -57,12 +52,13 @@
             };
         };
 
-        svc.buildShapes = function () {
+        svc.buildShapes = function (textures) {
             for (var i = 0; i < 10; i++) {
-                svc.shapeObjs.push(svc.getShape('cube'));
-                svc.shapeObjs.push(svc.getShape('torus'));
-                svc.shapeObjs.push(svc.getShape('sphere'));
-                svc.shapeObjs.push(svc.getShape('cone'));
+                var rndTextureIndex = utilFactory.getRandomInt(0, textures.length);
+                svc.shapeObjs.push(svc.getShape('cube', textures[rndTextureIndex]));
+                svc.shapeObjs.push(svc.getShape('torus', textures[rndTextureIndex]));
+                svc.shapeObjs.push(svc.getShape('sphere', textures[rndTextureIndex]));
+                svc.shapeObjs.push(svc.getShape('cone', textures[rndTextureIndex]));
             }
         };
 

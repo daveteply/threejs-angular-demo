@@ -4,7 +4,7 @@
     angular.module('3js0').factory('threeDApiFactory', threeDApi);
 
     /** @ngInject */
-    function threeDApi($window, $document, shapesFactory) {
+    function threeDApi($window, $document, $log, shapesFactory) {
         var svc = this;
 
         if ($window.THREE) {
@@ -47,7 +47,7 @@
                 svc.scene.add(ambLight);
 
                 // camera
-                svc.camera = new three.PerspectiveCamera(70, width / height, 1, 10000);
+                svc.camera = new three.PerspectiveCamera(45, width / height, 1, 10000);
                 svc.camera.position.z = 3;
 
                 // raycaster
@@ -59,6 +59,30 @@
                     svc.scene.add(shapeObj.shape);
                 });
             };
+
+            svc.loadTextures = function () {
+                svc.textures = [];
+                var images = [
+                    'assets/images/wood_crate.jpg',
+                    'assets/images/wood_crate2.jpg',
+                    'assets/images/steel_crate.jpg',
+                    'assets/images/steel_crate2.jpg'
+                ];
+                var loader = new three.TextureLoader();
+                angular.forEach(images, function (image) {
+                    loader.load(image, function (texture) {
+                        var material = new three.MeshBasicMaterial({
+                            map: texture
+                        });
+                        svc.textures.push(material);
+                    }, function (xhr) {
+                        $log.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    }, function (xhr) {
+                        $log.error('texture laod failed: ' + xhr);
+                    });
+                });
+                return loader;
+            }
 
             svc.render = function () {
                 requestAnimationFrame(svc.render);

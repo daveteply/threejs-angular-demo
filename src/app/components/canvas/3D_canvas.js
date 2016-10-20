@@ -51,7 +51,7 @@
 
             var handleTouchStart = function (event) {
                 // calc position in normalized device y
-                angular.forEach(event.targetTouches, function(touch) {
+                angular.forEach(event.targetTouches, function (touch) {
                     var x = (touch.pageX / _w[0].innerWidth) * 2 - 1;
                     var y = -(touch.pageY / _w[0].innerHeight) * 2 + 1;
                     var intersects = threeDApiFactory.detectObjectIntersection(x, y);
@@ -74,19 +74,21 @@
             ctrl.$onInit = function () {
                 bindCanvasEvents();
                 bindWindowEvents();
+                initFullscreen();
 
                 // setup
                 setCanvasDimensions();
                 threeDApiFactory.initRenderer(_c, ctrl.width, ctrl.height);
                 threeDApiFactory.setUpScene(ctrl.width, ctrl.height);
-                initFullscreen();
+                var loader = threeDApiFactory.loadTextures();
+                loader.manager.onLoad = function () {
+                    // build shapes and add them to scene
+                    shapesFactory.buildShapes(threeDApiFactory.textures);
+                    threeDApiFactory.addShapes(shapesFactory.shapeObjs);
 
-                // build shapes and add them to scene
-                shapesFactory.buildShapes();
-                threeDApiFactory.addShapes(shapesFactory.shapeObjs);
-
-                // let the show begin!
-                threeDApiFactory.render();
+                    // let the show begin!
+                    threeDApiFactory.render();
+                };
             };
 
             ctrl.toggleFullscreen = function () {
