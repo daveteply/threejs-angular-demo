@@ -67,13 +67,15 @@
             svc.loadTextures = function () {
                 svc.textures = [];
                 var images = [
-                    'assets/images/wood_crate.jpg',
-                    'assets/images/wood_crate2.jpg',
-                    'assets/images/steel_crate.jpg',
-                    'assets/images/steel_crate2.jpg',
-                    'assets/images/stone.jpg',
-                    'assets/images/grass.jpg'
-                ];
+                        'assets/images/wood_crate.jpg',
+                        'assets/images/wood_crate2.jpg',
+                        'assets/images/steel_crate.jpg',
+                        'assets/images/steel_crate2.jpg',
+                        'assets/images/bark.jpg',
+                        'assets/images/stone.jpg',
+                        'assets/images/grass.jpg',
+                        'assets/images/lava.jpg',
+                        'assets/images/moon.jpg'];
                 var loader = new three.TextureLoader();
                 angular.forEach(images, function (image) {
                     loader.load(image, function (texture) {

@@ -53,12 +53,23 @@
         };
 
         svc.buildShapes = function (textures) {
-            for (var i = 0; i < 1; i++) {
-                //var rndTextureIndex = utilFactory.getRandomInt(0, textures.length);
-                svc.shapeObjs.push(svc.getShape('cube', textures[0]));
-                svc.shapeObjs.push(svc.getShape('torus'));
-                svc.shapeObjs.push(svc.getShape('sphere', textures[1]));
-                svc.shapeObjs.push(svc.getShape('cone'));
+            for (var i = 0; i < 16; i++) {
+                var rndTextureIndex = utilFactory.getRandomInt(0, textures.length);
+                var material = textures[rndTextureIndex].clone();
+                switch (utilFactory.getRandomInt(0, 4)) {
+                case 0:
+                    svc.shapeObjs.push(svc.getShape('cube', material));
+                    break;
+                case 1:
+                    svc.shapeObjs.push(svc.getShape('sphere', material));
+                    break;
+                case 2:
+                    svc.shapeObjs.push(svc.getShape('torus', material));
+                    break;
+                case 3:
+                    svc.shapeObjs.push(svc.getShape('cone', material));
+                    break;
+                }
             }
         };
 
@@ -76,8 +87,7 @@
 
         svc.updateShapeProps = function (intersects) {
             if (intersects.length > 0) {
-                intersects[0].object.material.wireframe
-                    = !intersects[0].object.material.wireframe;
+                intersects[0].object.material.wireframe = !intersects[0].object.material.wireframe;
             }
         };
 
