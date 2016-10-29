@@ -36,7 +36,7 @@
             }
 
             var targetShape = new three.Mesh(geometry, textureMaterial);
-            var startPosition = utilFactory.getRandomVector(-2.0, 2.0);
+            var startPosition = utilFactory.getRandomVector(-1.0, 1.0);
             if (startPosition.z < 0) {
                 startPosition.z = 0;
             }
@@ -53,12 +53,12 @@
         };
 
         svc.buildShapes = function (textures) {
-            for (var i = 0; i < 10; i++) {
-                var rndTextureIndex = utilFactory.getRandomInt(0, textures.length);
-                svc.shapeObjs.push(svc.getShape('cube', textures[rndTextureIndex]));
-                svc.shapeObjs.push(svc.getShape('torus', textures[rndTextureIndex]));
-                svc.shapeObjs.push(svc.getShape('sphere', textures[rndTextureIndex]));
-                svc.shapeObjs.push(svc.getShape('cone', textures[rndTextureIndex]));
+            for (var i = 0; i < 1; i++) {
+                //var rndTextureIndex = utilFactory.getRandomInt(0, textures.length);
+                svc.shapeObjs.push(svc.getShape('cube', textures[0]));
+                svc.shapeObjs.push(svc.getShape('torus'));
+                svc.shapeObjs.push(svc.getShape('sphere', textures[1]));
+                svc.shapeObjs.push(svc.getShape('cone'));
             }
         };
 
@@ -70,15 +70,15 @@
                 shapeObj.shape.position.x += shapeObj.locationVelocity.x;
                 shapeObj.shape.position.y += shapeObj.locationVelocity.y;
                 shapeObj.shape.position.z += shapeObj.locationVelocity.z;
-                utilFactory.resetLimits(shapeObj, 2.0, 2.0);
+                utilFactory.resetLimits(shapeObj, 1.5, 1.5);
             });
         };
 
         svc.updateShapeProps = function (intersects) {
-            angular.forEach(intersects, function (intersect) {
-                intersect.object.material.wireframe = true;
-                //intersect.object.material.emissive.setHex(0xff0000);
-            });
+            if (intersects.length > 0) {
+                intersects[0].object.material.wireframe
+                    = !intersects[0].object.material.wireframe;
+            }
         };
 
         return svc;

@@ -10,6 +10,8 @@
         if ($window.THREE) {
 
             var three = $window.THREE;
+            var _near = 1;
+            var _far = 500;
 
             svc.initRenderer = function (canvas, width, height) {
                 svc.renderer = new three.WebGLRenderer({
@@ -40,18 +42,20 @@
 
                 // lights
                 var dirLight = new three.DirectionalLight(0xffffff, 1);
-                dirLight.position.set(100, 100, 50).normalize();
+                dirLight.position.set(10, 10, 50).normalize();
                 svc.scene.add(dirLight);
 
                 var ambLight = new three.AmbientLight(0x404040);
                 svc.scene.add(ambLight);
 
                 // camera
-                svc.camera = new three.PerspectiveCamera(70, width / height, 1, 10000);
+                svc.camera = new three.PerspectiveCamera(45, width / height, _near, _far);
                 svc.camera.position.z = 3;
 
                 // raycaster
                 svc.raycaster = new three.Raycaster();
+                svc.raycaster.near = _near;
+                svc.raycaster.far = _far;
             };
 
             svc.addShapes = function (shapeObjs) {
@@ -66,19 +70,21 @@
                     'assets/images/wood_crate.jpg',
                     'assets/images/wood_crate2.jpg',
                     'assets/images/steel_crate.jpg',
-                    'assets/images/steel_crate2.jpg'
+                    'assets/images/steel_crate2.jpg',
+                    'assets/images/stone.jpg',
+                    'assets/images/grass.jpg'
                 ];
                 var loader = new three.TextureLoader();
                 angular.forEach(images, function (image) {
                     loader.load(image, function (texture) {
-                        var material = new three.MeshBasicMaterial({
+                        var material = new three.MeshPhongMaterial({
                             map: texture
                         });
                         svc.textures.push(material);
+                    }, function ( /*xhr*/ ) {
+                        //$log.log((xhr.loaded / xhr.total * 100).toFixed(2) + '% loaded');
                     }, function (xhr) {
-                        $log.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                    }, function (xhr) {
-                        $log.error('texture laod failed: ' + xhr);
+                        $log.error('texture load failed: ' + xhr);
                     });
                 });
                 return loader;

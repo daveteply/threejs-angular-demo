@@ -50,17 +50,25 @@
             };
 
             var handleTouchStart = function (event) {
-                // calc position in normalized device y
-                angular.forEach(event.targetTouches, function (touch) {
-                    var x = (touch.pageX / _w[0].innerWidth) * 2 - 1;
-                    var y = -(touch.pageY / _w[0].innerHeight) * 2 + 1;
-                    var intersects = threeDApiFactory.detectObjectIntersection(x, y);
-                    shapesFactory.updateShapeProps(intersects);
-                });
+                event.preventDefault();
+                var rect = _c.getBoundingClientRect();
+                var x, y, actualX, actualY;
+                if (event.targetTouches && event.targetTouches.length > 0) {
+                    actualX = event.targetTouches[0].clientX - rect.left;
+                    actualY = event.targetTouches[0].clientY - rect.top;
+                } else {
+                    actualX = event.clientX - rect.left;
+                    actualY = event.clientY - rect.top;
+                }
+                x = (actualX / rect.width) * 2 - 1;
+                y = -(actualY / rect.height) * 2 + 1;
+                var intersects = threeDApiFactory.detectObjectIntersection(x, y);
+                shapesFactory.updateShapeProps(intersects);
             };
 
             var bindCanvasEvents = function () {
                 $element.bind('touchstart', handleTouchStart);
+                $element.bind('mousedown', handleTouchStart);
             };
 
             var initFullscreen = function () {
@@ -82,7 +90,8 @@
                 threeDApiFactory.setUpScene(ctrl.width, ctrl.height);
                 var loader = threeDApiFactory.loadTextures();
                 loader.manager.onLoad = function () {
-                    // build shapes and add them to scene
+                    // textures are finished loading,
+                    //  build shapes and add them to scene
                     shapesFactory.buildShapes(threeDApiFactory.textures);
                     threeDApiFactory.addShapes(shapesFactory.shapeObjs);
 
