@@ -4,9 +4,4 @@
 
 .controls-container {
     position: relative;
-    top: -30px;
-}
-
-.controls-container > button {
-    cursor: pointer;
 }
