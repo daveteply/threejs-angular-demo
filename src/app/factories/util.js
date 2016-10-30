@@ -38,7 +38,7 @@
                 shapeObj.locationVelocity.z *= -1;
             }
         };
-
+        
         return svc;
     }
 

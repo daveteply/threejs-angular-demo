@@ -64,6 +64,7 @@
                 y = -(actualY / rect.height) * 2 + 1;
                 var intersects = threeDApiFactory.detectObjectIntersection(x, y);
                 shapesFactory.updateShapeProps(intersects);
+//threeDApiFactory.removeShape(intersects[0].object);
             };
 
             var bindCanvasEvents = function () {
