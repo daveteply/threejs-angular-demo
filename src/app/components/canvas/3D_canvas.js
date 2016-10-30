@@ -80,6 +80,18 @@
                     $document[0].msFullscreenEnabled);
             };
 
+            ctrl.toggleFullscreen = function () {
+                if (_c.requestFullscreen) {
+                    _c.requestFullscreen();
+                } else if (_c.webkitRequestFullscreen) {
+                    _c.webkitRequestFullscreen();
+                } else if (_c.mozRequestFullScreen) {
+                    _c.mozRequestFullScreen();
+                } else if (_c.msRequestFullscreen) {
+                    _c.msRequestFullscreen();
+                }
+            };
+
             ctrl.$onInit = function () {
                 bindCanvasEvents();
                 bindWindowEvents();
@@ -99,18 +111,6 @@
                     // let the show begin!
                     threeDApiFactory.render();
                 };
-            };
-
-            ctrl.toggleFullscreen = function () {
-                if (_c.requestFullscreen) {
-                    _c.requestFullscreen();
-                } else if (_c.webkitRequestFullscreen) {
-                    _c.webkitRequestFullscreen();
-                } else if (_c.mozRequestFullScreen) {
-                    _c.mozRequestFullScreen();
-                } else if (_c.msRequestFullscreen) {
-                    _c.msRequestFullscreen();
-                }
             };
 
         }

@@ -10,6 +10,7 @@
         var three = $window.THREE;
 
         svc.shapeObjs = [];
+        svc.removeShapeCallback;
 
         svc.getShape = function (shapeName, id, textureMaterial) {
             var geometry;
@@ -35,7 +36,7 @@
             geometry.name = shapeName + id;
 
             var targetShape = new three.Mesh(geometry, textureMaterial);
-            var startPosition = utilFactory.getRandomVector(-1.0, 1.0);
+            var startPosition = utilFactory.getRandomVector(-1.5, 1.5);
             if (startPosition.z < 0) {
                 startPosition.z = 0;
             }
@@ -74,19 +75,33 @@
 
         svc.updatePos = function () {
             angular.forEach(svc.shapeObjs, function (shapeObj) {
-                if (!shapeObj.hit) {
-                    shapeObj.shape.material.color = new three.Color(0xffffff);
-                    shapeObj.shape.rotation.x += shapeObj.rotation.x;
-                    shapeObj.shape.rotation.y += shapeObj.rotation.y;
-                    shapeObj.shape.rotation.z += shapeObj.rotation.z;
-                    shapeObj.shape.position.x += shapeObj.locationVelocity.x;
-                    shapeObj.shape.position.y += shapeObj.locationVelocity.y;
-                    shapeObj.shape.position.z += shapeObj.locationVelocity.z;
-                    utilFactory.resetLimits(shapeObj, 1.5, 1.5);
-                } else {
-                    shapeObj.shape.material.color.r -= 0.02;
-                    shapeObj.shape.material.color.g -= 0.02;
-                    shapeObj.shape.material.color.b -= 0.02;
+                if (!shapeObj.done) {
+                    if (!shapeObj.hit) {
+                        shapeObj.shape.material.color = new three.Color(0xffffff);
+                        shapeObj.shape.rotation.x += shapeObj.rotation.x;
+                        shapeObj.shape.rotation.y += shapeObj.rotation.y;
+                        shapeObj.shape.rotation.z += shapeObj.rotation.z;
+                        shapeObj.shape.position.x += shapeObj.locationVelocity.x;
+                        shapeObj.shape.position.y += shapeObj.locationVelocity.y;
+                        shapeObj.shape.position.z += shapeObj.locationVelocity.z;
+                        utilFactory.resetLimits(shapeObj, 1.5, 1.5);
+                    } else {
+                        shapeObj.shape.scale.x += 0.02;
+                        shapeObj.shape.scale.y += 0.02;
+                        shapeObj.shape.scale.z += 0.02;
+                        shapeObj.shape.material.color.r -= 0.02;
+                        shapeObj.shape.material.color.g -= 0.02;
+                        shapeObj.shape.material.color.b -= 0.02;
+                        if (shapeObj.shape.material.color.r < 0.0) {
+                            // registered from main threeDApiFactory
+                            if (svc.removeShapeCallback) {
+                                // remove from scene
+                                svc.removeShapeCallback(shapeObj.shape);
+                                // remove from position updating
+                                shapeObj.done = true;
+                            }
+                        }
+                    }
                 }
             });
         };

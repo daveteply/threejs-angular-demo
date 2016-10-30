@@ -63,8 +63,9 @@
                     svc.scene.add(shapeObj.shape);
                 });
             };
-            
-            svc.removeShape = function(shape) {
+
+            // register callback for event from main shapes class
+            shapesFactory.removeShapeCallback = function (shape) {
                 svc.scene.remove(shape);
             };
 
