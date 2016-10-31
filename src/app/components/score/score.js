@@ -6,8 +6,12 @@
         templateUrl: 'app/components/score/score.html',
         controller: function ($scope, gameFactory) {
             var ctrl = this;
+            
+            ctrl.textRollConfig = {
+                filter: 'number'
+            };
 
-            ctrl.score = 10;
+            ctrl.score = 0;
 
             gameFactory.scoreChangeCallback = function () {
                 ctrl.score = gameFactory.score;

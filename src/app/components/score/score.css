@@ -4,3 +4,7 @@ score {
     font-size: 22px;
     margin: 12px;
 }
+
+score ng-text-roll {
+    font-size: 32px;
+}
