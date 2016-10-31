@@ -1,7 +1,6 @@
 <span id="canvas-container">
     <canvas width={{$ctrl.width}} height={{$ctrl.height}}></canvas>
-    <div class="controls-container">
-        <button ng-show="$ctrl.fullScreenEnabled"
+    <button class="fullscreen-button" ng-show="$ctrl.fullScreenEnabled"
             ng-click="$ctrl.toggleFullscreen()">toggle fullscreen</button>
-    </div>
+    <score class="score-board"></score>
 </span>

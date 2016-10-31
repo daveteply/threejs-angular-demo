@@ -4,7 +4,7 @@
     angular.module('3js0').factory('shapesFactory', ShapesFactoryFunction);
 
     /** @ngInject */
-    function ShapesFactoryFunction($window, utilFactory) {
+    function ShapesFactoryFunction($window, utilFactory, gameFactory) {
         var svc = this;
 
         var three = $window.THREE;
@@ -93,12 +93,14 @@
                         shapeObj.shape.material.color.g -= 0.02;
                         shapeObj.shape.material.color.b -= 0.02;
                         if (shapeObj.shape.material.color.r < 0.0) {
-                            // registered from main threeDApiFactory
+                            // registered in threeDApiFactory
                             if (svc.removeShapeCallback) {
                                 // remove from scene
                                 svc.removeShapeCallback(shapeObj.shape);
-                                // remove from position updating
+                                // remove from updating
                                 shapeObj.done = true;
+                                // score
+                                gameFactory.updateScore();
                             }
                         }
                     }
@@ -111,7 +113,9 @@
                 var targetShape = svc.shapeObjs.find(function (shape) {
                     return shape.shape.geometry.name == intersects[0].object.geometry.name;
                 });
-                targetShape.hit = !targetShape.hit;
+                if (targetShape) {
+                    targetShape.hit = !targetShape.hit;
+                }
             }
         };
 

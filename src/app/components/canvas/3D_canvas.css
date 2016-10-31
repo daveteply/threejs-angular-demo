@@ -2,6 +2,13 @@
     position: relative;
 }
 
-.controls-container {
-    position: relative;
+.fullscreen-button {
+    position: absolute;
+    left: 10px;
+    bottom: -23px;
+}
+
+.score-board {
+    position: absolute;
+    right: 12px;
 }
