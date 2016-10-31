@@ -10,6 +10,7 @@
 
             var _w = angular.element($window);
             var _c = $element.find('canvas')[0];
+            var _d = $document[0];
 
             var HEIGHT_SCALE = 0.5;
 
@@ -73,10 +74,10 @@
 
             var initFullscreen = function () {
                 ctrl.fullScreenEnabled = (
-                    $document[0].fullscreenEnabled ||
-                    $document[0].webkitFullscreenEnabled ||
-                    $document[0].mozFullScreenEnabled ||
-                    $document[0].msFullscreenEnabled);
+                    _d.fullscreenEnabled ||
+                    _d.webkitFullscreenEnabled ||
+                    _d.mozFullScreenEnabled ||
+                    _d.msFullscreenEnabled);
             };
 
             ctrl.toggleFullscreen = function () {
