@@ -86,9 +86,9 @@
                         shapeObj.shape.position.z += shapeObj.locationVelocity.z;
                         utilFactory.resetLimits(shapeObj, 1.5, 1.5);
                     } else {
-                        shapeObj.shape.scale.x += 0.02;
-                        shapeObj.shape.scale.y += 0.02;
-                        shapeObj.shape.scale.z += 0.02;
+                        shapeObj.shape.scale.x += 0.09;
+                        shapeObj.shape.scale.y += 0.09;
+                        shapeObj.shape.scale.z += 0.09;
                         shapeObj.shape.material.color.r -= 0.02;
                         shapeObj.shape.material.color.g -= 0.02;
                         shapeObj.shape.material.color.b -= 0.02;
@@ -114,7 +114,7 @@
                     return shape.shape.geometry.name == intersects[0].object.geometry.name;
                 });
                 if (targetShape) {
-                    targetShape.hit = !targetShape.hit;
+                    targetShape.hit = true;
                 }
             }
         };

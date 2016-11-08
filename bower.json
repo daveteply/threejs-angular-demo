@@ -2,14 +2,21 @@
   "name": "3js0",
   "version": "0.0.0",
   "dependencies": {
-    "angular-touch": "~1.5.3",
+    "angular-material": "^1.1.1",
+    "material-design-iconfont": "^0.0.2",
     "angular": "~1.5.3",
-    "ng-text-roll": "*"
+    "ng-text-roll": "*",
+    "angular-screenfull": "^0.1.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.3"
   },
   "resolutions": {
     "angular": "~1.5.3"
+  },
+  "overrides": {
+    "screenfull": {
+      "main": "dist/screenfull.js"
+    }
   }
 }

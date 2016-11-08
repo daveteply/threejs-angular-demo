@@ -1,0 +1,4 @@
+<md-button hide-xs ng-repeat="link in $ctrl.linkData" href="{{link.href}}" target="_blank">{{link.label}}</md-button>
+<span hide-gt-xs ng-repeat="link in $ctrl.linkData">
+    <a href="{{link.href}}" target="_blank">{{link.label}}</a>
+</span>

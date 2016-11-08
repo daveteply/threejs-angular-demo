@@ -3,12 +3,7 @@
     "version": "1.1.1",
     "props": {
       "angularVersion": "~1.5.3",
-      "angularModules": [
-        {
-          "key": "touch",
-          "module": "ngTouch"
-        }
-      ],
+      "angularModules": [],
       "jQuery": {
         "key": "jqLite"
       },
@@ -21,8 +16,8 @@
         "module": null
       },
       "ui": {
-        "key": "noUI",
-        "module": null
+        "key": "angular-material",
+        "module": "ngMaterial"
       },
       "cssPreprocessor": {
         "key": "noCssPrepro",

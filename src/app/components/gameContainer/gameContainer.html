@@ -1,0 +1,13 @@
+<div id="game-container" ngsf-fullscreen class="game-panel" md-whiteframe="3">
+    <div layout="row" layout-padding>
+        <span flex></span>
+        <score></score>
+    </div>
+    <three-canvas parent-size="$ctrl.size"></three-canvas>
+    <div>
+        <md-button class="md-primary" ngsf-toggle-fullscreen show-if-fullscreen-enabled>
+            <span show-if-fullscreen="false">enter fullscreen</span>
+            <span show-if-fullscreen="true">exit fullscreen</span>
+        </md-button>
+    </div>
+</div>

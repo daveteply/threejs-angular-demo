@@ -50,6 +50,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(jsFilter.restore)
     .pipe(cssFilter)
     // .pipe($.sourcemaps.init())
+    .pipe($.replace('../../bower_components/material-design-iconfont/iconfont/', '../fonts/'))
     .pipe($.cssnano())
     .pipe($.rev())
     // .pipe($.sourcemaps.write('maps'))
@@ -70,7 +71,7 @@ gulp.task('html', ['inject', 'partials'], function () {
 // Only applies for fonts from bower dependencies
 // Custom fonts are handled by the "other" task
 gulp.task('fonts', function () {
-  return gulp.src($.mainBowerFiles())
+  return gulp.src($.mainBowerFiles().concat('bower_components/material-design-iconfont/iconfont/*'))
     .pipe($.filter('**/*.{eot,otf,svg,ttf,woff,woff2}'))
     .pipe($.flatten())
     .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));

@@ -85,7 +85,6 @@
                 angular.forEach(images, function (image) {
                     loader.load(image, function (texture) {
                         var material = new three.MeshPhongMaterial({
-                            //color: 0xff0000,
                             map: texture
                         });
                         svc.textures.push(material);

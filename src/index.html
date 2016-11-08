@@ -1,10 +1,14 @@
 <!doctype html>
-<html ng-app="3js0">
-  <head>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
     <title>threejs-angular-demo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
@@ -18,30 +22,40 @@
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
     <!-- endbuild -->
-  </head>
-  <body>
+</head>
+
+<body ng-app="3js0" layout="row" ng-cloak>
     <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser.
+        Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container" ng-controller="MainController as main">
-        <h1>three.js angular demo</h1>
-        <h4>
-          <a href="https://github.com/daveteply/threejs-angular-demo">
-            <img width="18px" src="assets/images/github.png">
-            Code on GitHub
-          </a>
-        </h4>
-        Click or tap on a shape<br>
-        <three-canvas></three-canvas>
-        <br>
-        <footer>
-            <a href="https://threejs.org/">three.js</a>
-            ::
-            <a href="https://angularjs.org/">AngularJS</a>
+    <div class="left-panel" flex="25" flex-sm="10" hide-xs></div>
+    <div layout-fill layout="column">
+        <md-toolbar md-whiteframe="3">
+            <div class="md-toolbar-tools">
+                <h1>three.js angular demo</h1>
+                <span flex></span>
+                <h5 class="right-text">
+                    <a href="https://github.com/daveteply/threejs-angular-demo">
+                        Code on GitHub <md-icon><img width="20px" src="assets/images/github.png"></md-icon>
+                    </a>
+                </h5>
+            </div>
+        </md-toolbar>
+        <div flex layout-padding layout="column">
+            <div class="center-text md-subhead">
+                Click or tap on a shape
+            </div>
+            <div flex layout="column">
+                <game-container></game-container>
+            </div>
+        </div>
+        <footer layout-padding class="center-text">
+            <links></links>
         </footer>
     </div>
-    
+    <div class="right-panel" flex="25" flex-sm="10" hide-xs></div>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
@@ -59,5 +73,6 @@
     <!-- endinject -->
     <!-- endbuild -->
 
-  </body>
+</body>
+
 </html>

@@ -1,5 +1,6 @@
 #canvas-container {
     position: relative;
+    text-align: center;
 }
 
 .fullscreen-button {
@@ -11,4 +12,8 @@
 .score-board {
     position: absolute;
     right: 12px;
+}
+
+canvas {
+    outline: none;
 }
