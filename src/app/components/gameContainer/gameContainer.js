@@ -8,6 +8,8 @@
 
             var ctrl = this;
             var _w = angular.element($window);
+            
+            ctrl.size = {};
 
             var updateClientRect = function () {
                 var rect = $element[0].getBoundingClientRect();
