@@ -74,7 +74,7 @@
                 svc.scene.remove(shape);
             };
 
-            svc.loadTextures = function () {
+            svc.loadAndBuildTextures = function () {
                 svc.textures = [];
                 var images = [
                         'assets/images/wood_crate.jpg',
@@ -90,7 +90,9 @@
                 angular.forEach(images, function (image) {
                     loader.load(image, function (texture) {
                         var material = new three.MeshPhongMaterial({
-                            map: texture
+                            map: texture,
+                            transparent: true,
+                            opacity: 0.0
                         });
                         svc.textures.push(material);
                     }, function ( /*xhr*/ ) {

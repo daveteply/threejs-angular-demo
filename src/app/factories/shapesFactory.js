@@ -96,7 +96,9 @@
         svc.updatePos = function () {
             angular.forEach(shapeObjs, function (shapeObj) {
                 if (!shapeObj.hit) {
-                    shapeObj.shape.material.color = new three.Color(0xffffff);
+                    if (shapeObj.shape.material.opacity < 1.0) {
+                        shapeObj.shape.material.opacity += 0.03;
+                    }
                     shapeObj.shape.rotation.x += shapeObj.rotation.x;
                     shapeObj.shape.rotation.y += shapeObj.rotation.y;
                     shapeObj.shape.rotation.z += shapeObj.rotation.z;
@@ -108,10 +110,8 @@
                     shapeObj.shape.scale.x += 0.09;
                     shapeObj.shape.scale.y += 0.09;
                     shapeObj.shape.scale.z += 0.09;
-                    shapeObj.shape.material.color.r -= 0.02;
-                    shapeObj.shape.material.color.g -= 0.02;
-                    shapeObj.shape.material.color.b -= 0.02;
-                    if (shapeObj.shape.material.color.r < 0.0) {
+                    shapeObj.shape.material.opacity -= 0.02;
+                    if (shapeObj.shape.material.opacity < 0.0) {
                         // registered in threeDApiFactory
                         if (svc.removeShapeCallback) {
                             // score

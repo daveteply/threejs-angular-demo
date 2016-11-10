@@ -57,7 +57,7 @@
                 setCanvasDimensions();
                 threeDApiFactory.initRenderer(_c, ctrl.width, ctrl.height);
                 threeDApiFactory.setUpScene(ctrl.width, ctrl.height);
-                var loader = threeDApiFactory.loadTextures();
+                var loader = threeDApiFactory.loadAndBuildTextures();
                 loader.manager.onLoad = function () {
                     // textures are finished loading,
                     //  build shapes and add them to scene
