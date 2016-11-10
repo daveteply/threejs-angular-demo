@@ -36,7 +36,6 @@
             };
 
             svc.setUpScene = function (width, height) {
-
                 // scene
                 svc.scene = new three.Scene();
 
@@ -61,6 +60,12 @@
             svc.addShapes = function (shapeObjs) {
                 angular.forEach(shapeObjs, function (shapeObj) {
                     svc.scene.add(shapeObj.shape);
+                });
+            };
+            
+            svc.removeAllShapes = function(shapeObjs) {
+                angular.forEach(shapeObjs, function (shapeObj) {
+                    svc.scene.remove(shapeObj.shape);
                 });
             };
 

@@ -4,10 +4,11 @@
 
     angular.module('3js0').component('threeCanvas', {
         bindings: {
-            parentSize: '<'
+            parentSize: '<',
+            gameLevel: '<'
         },
         templateUrl: 'app/components/threeCanvas/threeCanvas.html',
-        controller: function ($window, $element, threeDApiFactory, shapesFactory) {
+        controller: function ($window, $element, threeDApiFactory, shapesFactory, gameFactory) {
             var ctrl = this;
 
             var _c = $element.find('canvas')[0];
@@ -23,19 +24,32 @@
             };
 
             ctrl.handleClick = function (event) {
-                var rect = _c.getBoundingClientRect();
-                var x, y, actualX, actualY;
-                if (event.targetTouches && event.targetTouches.length > 0) {
-                    actualX = event.targetTouches[0].clientX - rect.left;
-                    actualY = event.targetTouches[0].clientY - rect.top;
-                } else {
-                    actualX = event.clientX - rect.left;
-                    actualY = event.clientY - rect.top;
+                if (gameFactory.isScoring) {
+                    var rect = _c.getBoundingClientRect();
+                    var x, y, actualX, actualY;
+                    if (event.targetTouches && event.targetTouches.length > 0) {
+                        actualX = event.targetTouches[0].clientX - rect.left;
+                        actualY = event.targetTouches[0].clientY - rect.top;
+                    } else {
+                        actualX = event.clientX - rect.left;
+                        actualY = event.clientY - rect.top;
+                    }
+                    x = (actualX / rect.width) * 2 - 1;
+                    y = -(actualY / rect.height) * 2 + 1;
+                    var intersects = threeDApiFactory.detectObjectIntersection(x, y);
+                    shapesFactory.updateShapeProps(intersects);
                 }
-                x = (actualX / rect.width) * 2 - 1;
-                y = -(actualY / rect.height) * 2 + 1;
-                var intersects = threeDApiFactory.detectObjectIntersection(x, y);
-                shapesFactory.updateShapeProps(intersects);
+            };
+
+            var startNewLevel = function () {
+                // clear shapes (only for initial level)
+                var shapes = shapesFactory.get();
+                threeDApiFactory.removeAllShapes(shapes);
+                
+                // add shapes for new level
+                var shapeCnt = Math.ceil(gameFactory.level * 3.3);
+                var newShapes = shapesFactory.buildShapes(shapeCnt, threeDApiFactory.textures);
+                threeDApiFactory.addShapes(newShapes);
             };
 
             ctrl.$onInit = function () {
@@ -47,8 +61,8 @@
                 loader.manager.onLoad = function () {
                     // textures are finished loading,
                     //  build shapes and add them to scene
-                    shapesFactory.buildShapes(threeDApiFactory.textures);
-                    threeDApiFactory.addShapes(shapesFactory.shapeObjs);
+                    var shapes = shapesFactory.buildShapes(8, threeDApiFactory.textures);
+                    threeDApiFactory.addShapes(shapes);
 
                     // let the show begin!
                     threeDApiFactory.render();
@@ -56,8 +70,11 @@
             };
 
             ctrl.$onChanges = function (changesObj) {
-                if (!changesObj.parentSize.isFirstChange()) {
+                if (changesObj.parentSize && !changesObj.parentSize.isFirstChange()) {
                     handleResizeEvent();
+                }
+                if (changesObj.gameLevel && !changesObj.gameLevel.isFirstChange()) {
+                    startNewLevel();
                 }
             };
 

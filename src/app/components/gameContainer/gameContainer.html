@@ -3,11 +3,18 @@
         <span flex></span>
         <score></score>
     </div>
-    <three-canvas parent-size="$ctrl.size"></three-canvas>
+    <three-canvas parent-size="$ctrl.size" game-level="$ctrl.gameFactory.level"></three-canvas>
     <div>
         <md-button class="md-primary" ngsf-toggle-fullscreen show-if-fullscreen-enabled>
             <span show-if-fullscreen="false">enter fullscreen</span>
             <span show-if-fullscreen="true">exit fullscreen</span>
+        </md-button>
+    </div>
+    <div layout-padding ng-if="!$ctrl.gameFactory.isScoring" layout="column" layout-aligh="center center" class="start-button-container">
+        <h1 ng-show="$ctrl.gameFactory.level > 0" class="level-complete">Level {{$ctrl.gameFactory.level}} Cleared!</h1>
+        <md-button class="md-primary md-raised" ng-click="$ctrl.startLevel()">
+            <span ng-hide="$ctrl.gameFactory.level > 0">Start a new Game!</span>
+            <span ng-show="$ctrl.gameFactory.level > 0">Start Next Level</span>
         </md-button>
     </div>
 </div>

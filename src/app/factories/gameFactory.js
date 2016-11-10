@@ -9,8 +9,17 @@
 
         svc.scoreChangeCallback;
 
+        svc.isScoring = false;
         svc.score = 0;
-        svc.timemark = new Date();
+        svc.level = 0;
+
+        svc.timemark = {}; // new Date();
+
+        svc.startLevel = function () {
+            svc.timemark = new Date();
+            svc.isScoring = true;
+            svc.level++;
+        };
 
         svc.updateScore = function () {
             var timeDiff = Math.abs(svc.timemark.getTime() - new Date().getTime());
@@ -21,6 +30,11 @@
             }
             svc.timemark = new Date();
         };
+        
+        svc.endLevel = function() {
+            svc.isScoring = false;
+        };
+
         return svc;
     }
 

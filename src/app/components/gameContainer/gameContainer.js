@@ -4,12 +4,14 @@
 
     angular.module('3js0').component('gameContainer', {
         templateUrl: 'app/components/gameContainer/gameContainer.html',
-        controller: function ($window, $document, $element, $timeout, $scope) {
+        controller: function ($window, $document, $element, $timeout, $scope, gameFactory) {
 
             var ctrl = this;
             var _w = angular.element($window);
-            
+
             ctrl.size = {};
+
+            ctrl.gameFactory = gameFactory; // for template binding
 
             var updateClientRect = function () {
                 var rect = $element[0].getBoundingClientRect();
@@ -26,7 +28,6 @@
             };
 
             ctrl.$onInit = function () {
-
                 // resize event
                 _w.bind('resize', updateClientRect);
 
@@ -38,6 +39,10 @@
 
             ctrl.$onDestroy = function () {
                 ctrl.timer();
+            };
+
+            ctrl.startLevel = function () {
+                gameFactory.startLevel();
             };
 
         }
