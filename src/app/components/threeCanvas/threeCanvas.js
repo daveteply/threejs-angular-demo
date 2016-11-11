@@ -47,7 +47,8 @@
                 threeDApiFactory.removeAllShapes(shapes);
 
                 // add shapes for new level
-                var newShapes = shapesFactory.buildShapes(gameFactory.getNextShapeCount(), threeDApiFactory.textures);
+                var newShapes = shapesFactory.buildShapes(
+                    gameFactory.getNextShapeCount(), 1, threeDApiFactory.textures);
                 threeDApiFactory.addShapes(newShapes);
             };
 
@@ -60,7 +61,7 @@
                 loader.manager.onLoad = function () {
                     // textures are finished loading,
                     //  build shapes and add them to scene
-                    var shapes = shapesFactory.buildShapes(8, threeDApiFactory.textures);
+                    var shapes = shapesFactory.buildShapes(8, 3, threeDApiFactory.textures);
                     threeDApiFactory.addShapes(shapes);
 
                     // let the show begin!

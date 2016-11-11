@@ -12,7 +12,7 @@
         var shapeObjs = [];
         svc.removeShapeCallback;
 
-        svc.getShape = function (shapeName, id, textureMaterial) {
+        var getShape = function (shapeName, scale, id, textureMaterial) {
             var geometry;
             switch (shapeName) {
 
@@ -43,6 +43,7 @@
             targetShape.position.x = startPosition.x;
             targetShape.position.y = startPosition.y;
             targetShape.position.z = startPosition.z;
+            targetShape.scale.multiplyScalar(scale);
             //targetShape.castShadow = true;
 
             return {
@@ -52,23 +53,23 @@
             };
         };
 
-        svc.buildShapes = function (count, textures) {
+        svc.buildShapes = function (count, scale, textures) {
             shapeObjs = []; // clear existing shapes
             for (var i = 0; i < count; i++) {
                 var rndTextureIndex = utilFactory.getRandomInt(0, textures.length);
                 var material = textures[rndTextureIndex].clone();
                 switch (utilFactory.getRandomInt(0, 4)) {
                 case 0:
-                    shapeObjs.push(svc.getShape('cube', i, material));
+                    shapeObjs.push(getShape('cube', scale, i, material));
                     break;
                 case 1:
-                    shapeObjs.push(svc.getShape('sphere', i, material));
+                    shapeObjs.push(getShape('sphere', scale, i, material));
                     break;
                 case 2:
-                    shapeObjs.push(svc.getShape('torus', i, material));
+                    shapeObjs.push(getShape('torus', scale, i, material));
                     break;
                 case 3:
-                    shapeObjs.push(svc.getShape('cone', i, material));
+                    shapeObjs.push(getShape('cone', scale, i, material));
                     break;
                 }
             }
@@ -107,9 +108,7 @@
                     shapeObj.shape.position.z += shapeObj.locationVelocity.z;
                     utilFactory.resetLimits(shapeObj, 1.5, 1.5);
                 } else {
-                    shapeObj.shape.scale.x += 0.09;
-                    shapeObj.shape.scale.y += 0.09;
-                    shapeObj.shape.scale.z += 0.09;
+                    shapeObj.shape.scale.multiplyScalar(1.09);
                     shapeObj.shape.material.opacity -= 0.02;
                     if (shapeObj.shape.material.opacity < 0.0) {
                         // registered in threeDApiFactory
