@@ -10,8 +10,15 @@
             <span show-if-fullscreen="true">exit fullscreen</span>
         </md-button>
     </div>
-    <div layout-padding ng-if="!$ctrl.gameFactory.isScoring" layout="column" layout-aligh="center center" class="start-button-container">
-        <h1 ng-show="$ctrl.gameFactory.level > 0" class="level-complete">Level {{$ctrl.gameFactory.level}} Cleared!</h1>
+    <div layout-padding class="start-button-container"
+         ng-class="{hide:$ctrl.gameFactory.isScoring}"
+         layout="column" 
+         layout-aligh="center center">
+        <h1 class="level-complete foo" 
+            ng-show="$ctrl.gameFactory.level > 0"
+            ng-class="{show : !$ctrl.gameFactory.isScoring}">
+            Level {{$ctrl.gameFactory.level}} Cleared!
+        </h1>
         <md-button class="md-primary md-raised" ng-click="$ctrl.startLevel()">
             <span ng-hide="$ctrl.gameFactory.level > 0">Start a new Game!</span>
             <span ng-show="$ctrl.gameFactory.level > 0">Start Next Level</span>

@@ -34,6 +34,10 @@
         svc.endLevel = function() {
             svc.isScoring = false;
         };
+        
+        svc.getNextShapeCount = function() {
+            return Math.ceil(svc.level * 1);//3.3);
+        };
 
         return svc;
     }

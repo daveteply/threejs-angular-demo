@@ -45,10 +45,9 @@
                 // clear shapes (only for initial level)
                 var shapes = shapesFactory.get();
                 threeDApiFactory.removeAllShapes(shapes);
-                
+
                 // add shapes for new level
-                var shapeCnt = Math.ceil(gameFactory.level * 3.3);
-                var newShapes = shapesFactory.buildShapes(shapeCnt, threeDApiFactory.textures);
+                var newShapes = shapesFactory.buildShapes(gameFactory.getNextShapeCount(), threeDApiFactory.textures);
                 threeDApiFactory.addShapes(newShapes);
             };
 
