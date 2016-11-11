@@ -3,7 +3,10 @@
         <span flex></span>
         <score></score>
     </div>
-    <three-canvas parent-size="$ctrl.size" game-level="$ctrl.gameFactory.level"></three-canvas>
+    <three-canvas 
+                  parent-size="$ctrl.size" 
+                  game-level="$ctrl.gameFactory.level"
+                  is-scoring="$ctrl.gameFactory.isScoring"></three-canvas>
     <div>
         <md-button class="md-primary" ngsf-toggle-fullscreen show-if-fullscreen-enabled>
             <span show-if-fullscreen="false">enter fullscreen</span>

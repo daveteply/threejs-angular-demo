@@ -5,7 +5,8 @@
     angular.module('3js0').component('threeCanvas', {
         bindings: {
             parentSize: '<',
-            gameLevel: '<'
+            gameLevel: '<',
+            isScoring: '<'
         },
         templateUrl: 'app/components/threeCanvas/threeCanvas.html',
         controller: function ($window, $element, threeDApiFactory, shapesFactory, gameFactory) {
@@ -52,6 +53,11 @@
                 threeDApiFactory.addShapes(newShapes);
             };
 
+            var addBackdropShapes = function () {
+                var shapes = shapesFactory.buildShapes(8, 3, threeDApiFactory.textures);
+                threeDApiFactory.addShapes(shapes);
+            };
+
             ctrl.$onInit = function () {
                 // setup
                 setCanvasDimensions();
@@ -61,9 +67,7 @@
                 loader.manager.onLoad = function () {
                     // textures are finished loading,
                     //  build shapes and add them to scene
-                    var shapes = shapesFactory.buildShapes(8, 3, threeDApiFactory.textures);
-                    threeDApiFactory.addShapes(shapes);
-
+                    addBackdropShapes();
                     // let the show begin!
                     threeDApiFactory.render();
                 };
@@ -75,6 +79,11 @@
                 }
                 if (changesObj.gameLevel && !changesObj.gameLevel.isFirstChange()) {
                     startNewLevel();
+                }
+                if (changesObj.isScoring && !changesObj.isScoring.isFirstChange()) {
+                    if (!changesObj.isScoring.currentValue) {
+                        addBackdropShapes();
+                    }
                 }
             };
 
