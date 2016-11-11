@@ -12,6 +12,7 @@
         svc.isScoring = false;
         svc.score = 0;
         svc.level = 0;
+        svc.levelButtonText = "Start a new Game!";
 
         svc.timemark = {}; // new Date();
 
@@ -19,6 +20,7 @@
             svc.timemark = new Date();
             svc.isScoring = true;
             svc.level++;
+            svc.levelButtonText = "Start Next Level";
         };
 
         svc.updateScore = function () {

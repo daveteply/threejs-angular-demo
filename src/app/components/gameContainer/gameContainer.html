@@ -19,9 +19,12 @@
             ng-class="{show : !$ctrl.gameFactory.isScoring}">
             Level {{$ctrl.gameFactory.level}} Cleared!
         </h1>
-        <md-button class="md-primary md-raised" ng-click="$ctrl.startLevel()">
-            <span ng-hide="$ctrl.gameFactory.level > 0">Start a new Game!</span>
-            <span ng-show="$ctrl.gameFactory.level > 0">Start Next Level</span>
+        <md-button class="next-level-button md-primary md-raised"
+                   ng-class="{show:!$ctrl.gameFactory.isScoring}"
+                   ng-click="$ctrl.startLevel()">
+            <span class="next-level-button" ng-class="{show : !$ctrl.gameFactory.isScoring}">
+                {{$ctrl.gameFactory.levelButtonText}}
+            </span>
         </md-button>
     </div>
 </div>
