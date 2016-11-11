@@ -1,5 +1,6 @@
 <div id="game-container" ngsf-fullscreen class="game-panel" md-whiteframe="3">
     <div layout="row" layout-padding>
+        <span ng-show="$ctrl.gameFactory.isScoring">Level: {{$ctrl.gameFactory.level}}</span>
         <span flex></span>
         <score></score>
     </div>

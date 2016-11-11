@@ -1,7 +1,9 @@
 #game-container {
     transition: all 1s ease;
-    background-color: #000;
+    background-color: #000000;
+    color: #ffffff;
     position: relative;
+    font-size: 22px;
 }
 
 #game-container.fullscreen {
