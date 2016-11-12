@@ -18,11 +18,17 @@
          ng-class="{hide:$ctrl.gameFactory.isScoring}"
          layout="column" 
          layout-aligh="center center">
-        <h1 class="level-complete foo" 
+        <h2 class="level-complete" 
             ng-show="$ctrl.gameFactory.level > 0"
             ng-class="{show : !$ctrl.gameFactory.isScoring}">
             Level {{$ctrl.gameFactory.level}} Cleared!
-        </h1>
+        </h2>
+        <div layout="row">
+            <span flex></span>
+            <img ng-repeat="star in $ctrl.gameFactory.starRating track by $index" 
+                 src="assets/images/star.png"/>
+            <span flex></span>
+        </div>
         <md-button class="next-level-button md-primary md-raised"
                    ng-class="{show:!$ctrl.gameFactory.isScoring}"
                    ng-click="$ctrl.startLevel()">

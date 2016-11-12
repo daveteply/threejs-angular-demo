@@ -17,6 +17,7 @@
         svc.timemark = {}; // new Date();
 
         svc.startLevel = function () {
+            svc.startLevelTimemark = new Date();
             svc.timemark = new Date();
             svc.isScoring = true;
             svc.level++;
@@ -32,12 +33,21 @@
             }
             svc.timemark = new Date();
         };
-        
-        svc.endLevel = function() {
+
+        svc.endLevel = function () {
             svc.isScoring = false;
+            var totalSeconds = Math.abs(svc.startLevelTimemark.getTime() - new Date().getTime()) / 1000;
+            var startCnt = Math.ceil((svc.level / totalSeconds) * 10);
+            if (startCnt < 1) {
+                startCnt = 1;
+            }
+            svc.starRating = [];
+            for (var i = 0; i < startCnt; i++) {
+                svc.starRating.push(0);
+            }
         };
-        
-        svc.getNextShapeCount = function() {
+
+        svc.getNextShapeCount = function () {
             return Math.ceil(svc.level * 3.3);
         };
 
