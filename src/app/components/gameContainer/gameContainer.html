@@ -23,7 +23,7 @@
             ng-class="{show : !$ctrl.gameFactory.isScoring}">
             Level {{$ctrl.gameFactory.level}} Cleared!
         </h2>
-        <div layout="row">
+        <div layout="row" ng-show="$ctrl.gameFactory.level > 0">
             <span flex></span>
             <img ng-repeat="star in $ctrl.gameFactory.starRating track by $index" 
                  src="assets/images/star.png"/>

@@ -4,7 +4,7 @@
     angular.module('3js0').factory('threeDApiFactory', threeDApi);
 
     /** @ngInject */
-    function threeDApi($window, $document, $log, shapesFactory) {
+    function threeDApi($window, $document, $log, shapesFactory, audioFactory, utilFactory) {
         var svc = this;
 
         if ($window.THREE) {
@@ -62,8 +62,8 @@
                     svc.scene.add(shapeObj.shape);
                 });
             };
-            
-            svc.removeAllShapes = function(shapeObjs) {
+
+            svc.removeAllShapes = function (shapeObjs) {
                 angular.forEach(shapeObjs, function (shapeObj) {
                     svc.scene.remove(shapeObj.shape);
                 });
@@ -87,19 +87,20 @@
                         'assets/images/lava.jpg',
                         'assets/images/moon.jpg'];
                 var loader = new three.TextureLoader();
-                angular.forEach(images, function (image) {
+                angular.forEach(images, function (image, inx) {
                     loader.load(image, function (texture) {
-                        var material = new three.MeshPhongMaterial({
-                            map: texture,
-                            transparent: true,
-                            opacity: 0.0
+                            var material = new three.MeshPhongMaterial({
+                                map: texture,
+                                transparent: true,
+                                opacity: 0.0
+                            });
+                            svc.textures.push(material);
+                        }, function (xhr) {
+                            $log.log(utilFactory.reportXhrProgress(xhr, 'TEXTURE', inx));
+                        },
+                        function (xhr) {
+                            $log.error(utilFactory.reportXhrError(xhr, 'TEXTURE', inx));
                         });
-                        svc.textures.push(material);
-                    }, function ( /*xhr*/ ) {
-                        //$log.log((xhr.loaded / xhr.total * 100).toFixed(2) + '% loaded');
-                    }, function (xhr) {
-                        $log.error('texture load failed: ' + xhr);
-                    });
                 });
                 return loader;
             }

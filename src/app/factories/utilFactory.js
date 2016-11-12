@@ -38,7 +38,15 @@
                 shapeObj.locationVelocity.z *= -1;
             }
         };
-        
+
+        svc.reportXhrProgress = function (xhr, label, inx) {
+            return label + inx + ' ' + (xhr.loaded / xhr.total * 100).toFixed(2) + '% loaded'
+        };
+
+        svc.reportXhrError = function (xhr, label, inx) {
+            return label + inx + ' error' + xhr;
+        };
+
         return svc;
     }
 

@@ -23,6 +23,10 @@
                 {
                     href: "https://github.com/hrajchert/angular-screenfull",
                     label: "Angular Screenfull"
+                },
+                {
+                    href: "http://www.acoustica.com/mixcraft/free-stuff.htm",
+                    label: "Audio"
                 }
             ];
 
