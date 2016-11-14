@@ -9,7 +9,7 @@
             isScoring: '<'
         },
         templateUrl: 'app/components/threeCanvas/threeCanvas.html',
-        controller: function ($window, $element, threeDApiFactory, shapesFactory, gameFactory) {
+        controller: function ($window, $element, threeDApiFactory, shapesFactory, gameFactory, audioFactory) {
             var ctrl = this;
 
             var _c = $element.find('canvas')[0];
@@ -63,6 +63,10 @@
                 setCanvasDimensions();
                 threeDApiFactory.initRenderer(_c, ctrl.width, ctrl.height);
                 threeDApiFactory.setUpScene(ctrl.width, ctrl.height);
+
+                // audio
+                audioFactory.loadAudio(threeDApiFactory.camera, threeDApiFactory.scene);
+
                 var loader = threeDApiFactory.loadAndBuildTextures();
                 loader.manager.onLoad = function () {
                     // textures are finished loading,
