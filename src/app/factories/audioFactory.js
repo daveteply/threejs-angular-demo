@@ -37,8 +37,27 @@
         };
 
         svc.playNextMusicTrack = function () {
-            var track = audioTracks.levelMusic[utilFactory.getRandomInt(0, audioTracks.levelMusic.length)];
-            console.log(222, track.audio);
+            if (svc.endLevelTrack) {
+                svc.endLevelTrack.audio.stop();
+            }
+            angular.forEach(audioTracks.levelMusic, function (track) {
+                if (track.audio.isPlaying) {
+                    track.audio.stop();
+                }
+            });
+            svc.musicTrack = audioTracks.levelMusic[utilFactory.getRandomInt(0, audioTracks.levelMusic.length)];
+            svc.musicTrack.audio.play();
+        };
+
+        svc.playNextEndLevelMusic = function () {
+            svc.musicTrack.audio.stop();
+            angular.forEach(audioTracks.endLevelMusic, function (track) {
+                if (track.audio.isPlaying) {
+                    track.audio.stop();
+                }
+            });
+            svc.endLevelTrack = audioTracks.endLevelMusic[utilFactory.getRandomInt(0, audioTracks.endLevelMusic.length)];
+            svc.endLevelTrack.audio.play();
         };
 
         svc.loadAudio = function (camera, scene) {

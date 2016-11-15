@@ -4,7 +4,7 @@
     angular.module('3js0').factory('gameFactory', GameFactoryFunction);
 
     /** @ngInject */
-    function GameFactoryFunction() {
+    function GameFactoryFunction(audioFactory) {
         var svc = this;
 
         svc.scoreChangeCallback;
@@ -17,6 +17,7 @@
         svc.timemark = {}; // new Date();
 
         svc.startLevel = function () {
+            audioFactory.playNextMusicTrack();
             svc.startLevelTimemark = new Date();
             svc.timemark = new Date();
             svc.isScoring = true;
@@ -35,6 +36,7 @@
         };
 
         svc.endLevel = function () {
+            audioFactory.playNextEndLevelMusic();
             svc.isScoring = false;
             var totalSeconds = Math.abs(svc.startLevelTimemark.getTime() - new Date().getTime()) / 1000;
             var startCnt = Math.ceil((svc.level / totalSeconds) * 10);
