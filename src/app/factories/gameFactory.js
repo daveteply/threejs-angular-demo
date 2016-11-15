@@ -26,6 +26,7 @@
         };
 
         svc.updateScore = function () {
+            audioFactory.playHit();
             var timeDiff = Math.abs(svc.timemark.getTime() - new Date().getTime());
             // more points for shorter time since previous score
             svc.score += Math.round((1 / timeDiff) * 1000000);

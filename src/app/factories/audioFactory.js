@@ -60,6 +60,18 @@
             svc.endLevelTrack.audio.play();
         };
 
+        svc.playHit = function () {
+            if (audioTracks.hit.audio.isPlaying) {
+                audioTracks.hit.audio.stop();
+            }
+            audioTracks.hit.audio.play();
+        };
+
+        svc.playMiss = function () {
+            audioTracks.miss.audio.stop();
+            audioTracks.miss.audio.play();
+        };
+
         svc.loadAudio = function (camera, scene) {
             var audioListener = new three.AudioListener();
             camera.add(audioListener);
