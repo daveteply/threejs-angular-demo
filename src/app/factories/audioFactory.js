@@ -4,7 +4,7 @@
     angular.module('3js0').factory('audioFactory', AudioFactoryFunction);
 
     /** @ngInject */
-    function AudioFactoryFunction($window, $log, utilFactory) {
+    function AudioFactoryFunction($window, $log, $q, utilFactory) {
         var svc = this;
 
         var three = $window.THREE;
@@ -48,68 +48,86 @@
             var loader = new three.AudioLoader();
 
             // load music
-            angular.forEach(audioTracks.levelMusic, function (track, inx) {
-                loader.load(track.src,
-                    function (audioBuffer) {
-                        track.audio = new three.Audio(audioListener);
-                        scene.add(track.audio);
-                        track.audio.setBuffer(audioBuffer);
-                        track.audio.setLoop(true);
-                    },
-                    function (xhr) {
-                        //$log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO Music', inx));
-                    },
-                    function (xhr) {
-                        $log.error(utilFactory.reportXhrError(xhr, 'AUDIO Music', inx));
-                    });
+            var levelMusicPromise = $q(function (resolve) {
+                angular.forEach(audioTracks.levelMusic, function (track, inx) {
+                    loader.load(track.src,
+                        function (audioBuffer) {
+                            track.audio = new three.Audio(audioListener);
+                            scene.add(track.audio);
+                            track.audio.setBuffer(audioBuffer);
+                            track.audio.setLoop(true);
+
+                            if ((inx + 1) == audioTracks.levelMusic.length) {
+                                resolve();
+                            }
+                        },
+                        function (xhr) {
+                            $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO Music', inx));
+                        },
+                        function (xhr) {
+                            $log.error(utilFactory.reportXhrError(xhr, 'AUDIO Music', inx));
+                        });
+                });
             });
 
             // load end level music
-            angular.forEach(audioTracks.endLevelMusic, function (track, inx) {
-                loader.load(track.src,
-                    function (audioBuffer) {
-                        track.audio = new three.Audio(audioListener);
-                        scene.add(track.audio);
-                        track.audio.setBuffer(audioBuffer);
-                        track.audio.setLoop(true);
-                    },
-                    function (xhr) {
-                        //$log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO End Level Music', inx));
-                    },
-                    function (xhr) {
-                        $log.error(utilFactory.reportXhrError(xhr, 'AUDIO End Level Music', inx));
-                    });
+            var endLevelMusicPromise = $q(function (resolve) {
+                angular.forEach(audioTracks.endLevelMusic, function (track, inx) {
+                    loader.load(track.src,
+                        function (audioBuffer) {
+                            track.audio = new three.Audio(audioListener);
+                            scene.add(track.audio);
+                            track.audio.setBuffer(audioBuffer);
+                            track.audio.setLoop(true);
+
+                            if ((inx + 1) == audioTracks.endLevelMusic.length) {
+                                resolve();
+                            }
+                        },
+                        function (xhr) {
+                            $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO End Level Music', inx));
+                        },
+                        function (xhr) {
+                            $log.error(utilFactory.reportXhrError(xhr, 'AUDIO End Level Music', inx));
+                        });
+                });
             });
 
             // hit
-            loader.load(audioTracks.hit.src,
-                function (audioBuffer) {
-                    audioTracks.hit.audio = new three.Audio(audioListener);
-                    scene.add(audioTracks.hit.audio);
-                    audioTracks.hit.audio.setBuffer(audioBuffer);
-                },
-                function (xhr) {
-                    //$log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO hit', 0));
-                },
-                function (xhr) {
-                    $log.error(utilFactory.reportXhrError(xhr, 'AUDIO hit', 0));
-                });
+            var hitPromise = $q(function (resolve) {
+                loader.load(audioTracks.hit.src,
+                    function (audioBuffer) {
+                        audioTracks.hit.audio = new three.Audio(audioListener);
+                        scene.add(audioTracks.hit.audio);
+                        audioTracks.hit.audio.setBuffer(audioBuffer);
+                        resolve();
+                    },
+                    function (xhr) {
+                        $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO hit', 0));
+                    },
+                    function (xhr) {
+                        $log.error(utilFactory.reportXhrError(xhr, 'AUDIO hit', 0));
+                    });
+            });
 
             // miss
-            loader.load(audioTracks.miss.src,
-                function (audioBuffer) {
-                    audioTracks.miss.audio = new three.Audio(audioListener);
-                    scene.add(audioTracks.miss.audio);
-                    audioTracks.miss.audio.setBuffer(audioBuffer);
-                },
-                function (xhr) {
-                    //$log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO miss', 0));
-                },
-                function (xhr) {
-                    $log.error(utilFactory.reportXhrError(xhr, 'AUDIO miss', 0));
-                });
+            var missPromise = $q(function (resolve) {
+                loader.load(audioTracks.miss.src,
+                    function (audioBuffer) {
+                        audioTracks.miss.audio = new three.Audio(audioListener);
+                        scene.add(audioTracks.miss.audio);
+                        audioTracks.miss.audio.setBuffer(audioBuffer);
+                        resolve();
+                    },
+                    function (xhr) {
+                        $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO miss', 0));
+                    },
+                    function (xhr) {
+                        $log.error(utilFactory.reportXhrError(xhr, 'AUDIO miss', 0));
+                    });
+            });
 
-            return loader;
+            return $q.all([levelMusicPromise, endLevelMusicPromise, hitPromise, missPromise]);
         };
 
 

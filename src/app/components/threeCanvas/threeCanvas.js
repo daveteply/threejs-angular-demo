@@ -65,16 +65,18 @@
                 threeDApiFactory.setUpScene(ctrl.width, ctrl.height);
 
                 // audio
-                audioFactory.loadAudio(threeDApiFactory.camera, threeDApiFactory.scene);
-
-                var loader = threeDApiFactory.loadAndBuildTextures();
-                loader.manager.onLoad = function () {
-                    // textures are finished loading,
-                    //  build shapes and add them to scene
-                    addBackdropShapes();
-                    // let the show begin!
-                    threeDApiFactory.render();
-                };
+                audioFactory.loadAudio(threeDApiFactory.camera, threeDApiFactory.scene)
+                    .then(function () {
+                        // textures
+                        var loader = threeDApiFactory.loadAndBuildTextures();
+                        loader.manager.onLoad = function () {
+                            // textures are finished loading,
+                            //  build shapes and add them to scene
+                            addBackdropShapes();
+                            // let the show begin!
+                            threeDApiFactory.render();
+                        };
+                    });
             };
 
             ctrl.$onChanges = function (changesObj) {

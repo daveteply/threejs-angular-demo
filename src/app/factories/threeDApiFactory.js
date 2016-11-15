@@ -88,14 +88,16 @@
                         'assets/images/moon.jpg'];
                 var loader = new three.TextureLoader();
                 angular.forEach(images, function (image, inx) {
-                    loader.load(image, function (texture) {
+                    loader.load(image,
+                        function (texture) {
                             var material = new three.MeshPhongMaterial({
                                 map: texture,
                                 transparent: true,
                                 opacity: 0.0
                             });
                             svc.textures.push(material);
-                        }, function (xhr) {
+                        },
+                        function (xhr) {
                             $log.log(utilFactory.reportXhrProgress(xhr, 'TEXTURE', inx));
                         },
                         function (xhr) {
