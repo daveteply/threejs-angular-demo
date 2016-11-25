@@ -114,7 +114,7 @@
                         // registered in threeDApiFactory
                         if (svc.removeShapeCallback) {
                             // score
-                            gameFactory.updateScore();
+                            gameFactory.updateScore(true);
                             // remove from scene
                             svc.removeShapeCallback(shapeObj.shape);
                             // remove from list
@@ -133,6 +133,8 @@
                 if (targetShape) {
                     targetShape.hit = true;
                 }
+            } else {
+                gameFactory.updateScore(false);
             }
         };
 

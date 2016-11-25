@@ -25,15 +25,19 @@
             svc.levelButtonText = "Start Next Level";
         };
 
-        svc.updateScore = function () {
-            audioFactory.playRndTrack('hit');            
-            var timeDiff = Math.abs(svc.timemark.getTime() - new Date().getTime());
-            // more points for shorter time since previous score
-            svc.score += Math.round((1 / timeDiff) * 1000000);
-            if (svc.scoreChangeCallback) {
-                svc.scoreChangeCallback();
+        svc.updateScore = function (hit) {
+            if (hit) {
+                audioFactory.playRndTrack('hit');
+                var timeDiff = Math.abs(svc.timemark.getTime() - new Date().getTime());
+                // more points for shorter time since previous score
+                svc.score += Math.round((1 / timeDiff) * 1000000);
+                if (svc.scoreChangeCallback) {
+                    svc.scoreChangeCallback();
+                }
+                svc.timemark = new Date();
+            } else {
+                audioFactory.playRndTrack('miss');
             }
-            svc.timemark = new Date();
         };
 
         svc.endLevel = function () {
