@@ -8,68 +8,74 @@
         var svc = this;
 
         var three = $window.THREE;
-
+        
         var audioTracks = {
-            levelMusic: [{
-                    src: 'assets/audio/FREE_R&B_0001_A.ogg'
-                },
-                {
-                    src: 'assets/audio/FREE_HIP_0002_A.ogg'
-                    },
-                {
-                    src: 'assets/audio/FREE_BRO_0001_A.ogg'
-                    }],
-            endLevelMusic: [{
-                    src: 'assets/audio/303__6.ogg'
-                },
-                {
-                    src: 'assets/audio/303__4.ogg'
-                },
-                {
-                    src: 'assets/audio/303__2.ogg'
-                }],
-            hit: {
-                src: 'assets/audio/TAKE_OFF.ogg'
-            },
-            miss: {
-                src: 'assets/audio/A_SPIRIT.ogg'
-            }
+            levelMusic: [
+                {src: 'assets/audio/level/l1.mp3'},
+                {src: 'assets/audio/level/l2.mp3'},
+                {src: 'assets/audio/level/l3.mp3'},
+                {src: 'assets/audio/level/l4.mp3'},
+            ],
+            endLevelMusic: [
+                {src: 'assets/audio/end/el1.mp3'},
+                {src: 'assets/audio/end/el2.mp3'},
+                {src: 'assets/audio/end/el3.mp3'},
+                {src: 'assets/audio/end/el4.mp3'}
+            ],
+            hit: [
+                {src: 'assets/audio/hit/h1.mp3'},
+                {src: 'assets/audio/hit/h2.mp3'},
+                {src: 'assets/audio/hit/h3.mp3'}
+            ],
+            miss: [
+                {src: 'assets/audio/miss/m1.mp3'},
+                {src: 'assets/audio/miss/m2.mp3'},
+                {src: 'assets/audio/miss/m3.mp3'},
+                {src: 'assets/audio/miss/m4.mp3'},
+                {src: 'assets/audio/miss/m5.mp3'},
+                {src: 'assets/audio/miss/m6.mp3'}
+            ]
         };
 
-        svc.playNextMusicTrack = function () {
-            if (svc.endLevelTrack) {
-                svc.endLevelTrack.audio.stop();
+        svc.playRndTrack = function(group) {
+            if (group === 'levelMusic' || group === 'endLevelMusic') {
+                // ensure all background music is not playing
+                var backgroundMusic = audioTracks.levelMusic;
+                backgroundMusic = backgroundMusic.concat(audioTracks.endLevelMusic);
+                angular.forEach(backgroundMusic, function(track) {
+                    if (track.audio.isPlaying) {
+                        track.audio.stop();
+                    }
+                });
             }
-            angular.forEach(audioTracks.levelMusic, function (track) {
-                if (track.audio.isPlaying) {
-                    track.audio.stop();
-                }
+            var inx = utilFactory.getRandomInt(0, audioTracks[group].length)
+            audioTracks[group][inx].audio.play();
+        };
+        
+        var loadAudioFileGroup = function(audioListener, audioLoader, scene, tracks, setLoop, msg) {
+            return $q(function(resolve) {
+                angular.forEach(tracks, function (track, inx) {
+                    audioLoader.load(track.src,
+                        function (audioBuffer) {
+                            $log.log(msg + inx + ' download complete');
+                            track.audio = new three.Audio(audioListener);
+                            scene.add(track.audio);
+                            track.audio.setBuffer(audioBuffer);
+                            if (setLoop) {
+                                track.audio.setLoop(true);
+                            }
+                            if ((inx + 1) == tracks.length) {
+                                resolve();
+                            }
+                        },
+                        function (xhr) {
+                            //$log.log(utilFactory.reportXhrProgress(xhr, msg, inx));
+                        },
+                        function (xhr) {
+                            $log.error(utilFactory.reportXhrError(xhr, msg, inx));
+                        });
+                });
             });
-            svc.musicTrack = audioTracks.levelMusic[utilFactory.getRandomInt(0, audioTracks.levelMusic.length)];
-            svc.musicTrack.audio.play();
-        };
-
-        svc.playNextEndLevelMusic = function () {
-            svc.musicTrack.audio.stop();
-            angular.forEach(audioTracks.endLevelMusic, function (track) {
-                if (track.audio.isPlaying) {
-                    track.audio.stop();
-                }
-            });
-            svc.endLevelTrack = audioTracks.endLevelMusic[utilFactory.getRandomInt(0, audioTracks.endLevelMusic.length)];
-            svc.endLevelTrack.audio.play();
-        };
-
-        svc.playHit = function () {
-            if (audioTracks.hit.audio.isPlaying) {
-                audioTracks.hit.audio.stop();
-            }
-            audioTracks.hit.audio.play();
-        };
-
-        svc.playMiss = function () {
-            audioTracks.miss.audio.stop();
-            audioTracks.miss.audio.play();
         };
 
         svc.loadAudio = function (camera, scene) {
@@ -78,90 +84,20 @@
 
             var loader = new three.AudioLoader();
 
-            // load music
-            var levelMusicPromise = $q(function (resolve) {
-                angular.forEach(audioTracks.levelMusic, function (track, inx) {
-                    loader.load(track.src,
-                        function (audioBuffer) {
-                            track.audio = new three.Audio(audioListener);
-                            scene.add(track.audio);
-                            track.audio.setBuffer(audioBuffer);
-                            track.audio.setLoop(true);
+            var levelMusicPromise = loadAudioFileGroup(
+                audioListener, loader, scene, audioTracks.levelMusic, true, 'AUDIO Music');
+            
+            var endLevelMusicPromise = loadAudioFileGroup(
+                audioListener, loader, scene, audioTracks.endLevelMusic, true, 'AUDIO End Level Music');
 
-                            if ((inx + 1) == audioTracks.levelMusic.length) {
-                                resolve();
-                            }
-                        },
-                        function (xhr) {
-                            $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO Music', inx));
-                        },
-                        function (xhr) {
-                            $log.error(utilFactory.reportXhrError(xhr, 'AUDIO Music', inx));
-                        });
-                });
-            });
-
-            // load end level music
-            var endLevelMusicPromise = $q(function (resolve) {
-                angular.forEach(audioTracks.endLevelMusic, function (track, inx) {
-                    loader.load(track.src,
-                        function (audioBuffer) {
-                            track.audio = new three.Audio(audioListener);
-                            scene.add(track.audio);
-                            track.audio.setBuffer(audioBuffer);
-                            track.audio.setLoop(true);
-
-                            if ((inx + 1) == audioTracks.endLevelMusic.length) {
-                                resolve();
-                            }
-                        },
-                        function (xhr) {
-                            $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO End Level Music', inx));
-                        },
-                        function (xhr) {
-                            $log.error(utilFactory.reportXhrError(xhr, 'AUDIO End Level Music', inx));
-                        });
-                });
-            });
-
-            // hit
-            var hitPromise = $q(function (resolve) {
-                loader.load(audioTracks.hit.src,
-                    function (audioBuffer) {
-                        audioTracks.hit.audio = new three.Audio(audioListener);
-                        scene.add(audioTracks.hit.audio);
-                        audioTracks.hit.audio.setBuffer(audioBuffer);
-                        resolve();
-                    },
-                    function (xhr) {
-                        $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO hit', 0));
-                    },
-                    function (xhr) {
-                        $log.error(utilFactory.reportXhrError(xhr, 'AUDIO hit', 0));
-                    });
-            });
-
-            // miss
-            var missPromise = $q(function (resolve) {
-                loader.load(audioTracks.miss.src,
-                    function (audioBuffer) {
-                        audioTracks.miss.audio = new three.Audio(audioListener);
-                        scene.add(audioTracks.miss.audio);
-                        audioTracks.miss.audio.setBuffer(audioBuffer);
-                        resolve();
-                    },
-                    function (xhr) {
-                        $log.log(utilFactory.reportXhrProgress(xhr, 'AUDIO miss', 0));
-                    },
-                    function (xhr) {
-                        $log.error(utilFactory.reportXhrError(xhr, 'AUDIO miss', 0));
-                    });
-            });
-
+            var hitPromise = loadAudioFileGroup(
+                audioListener, loader, scene, audioTracks.hit, false, 'AUDIO hit');
+            
+            var missPromise = loadAudioFileGroup(
+                audioListener, loader, scene, audioTracks.miss, false, 'AUDIO miss');
+                
             return $q.all([levelMusicPromise, endLevelMusicPromise, hitPromise, missPromise]);
         };
-
-
 
         return svc;
     }

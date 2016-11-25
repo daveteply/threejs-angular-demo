@@ -90,6 +90,7 @@
                 angular.forEach(images, function (image, inx) {
                     loader.load(image,
                         function (texture) {
+                            $log.log('TEXTURE' + inx + ' download complete');
                             var material = new three.MeshPhongMaterial({
                                 map: texture,
                                 transparent: true,
@@ -98,7 +99,7 @@
                             svc.textures.push(material);
                         },
                         function (xhr) {
-                            $log.log(utilFactory.reportXhrProgress(xhr, 'TEXTURE', inx));
+                            //$log.log(utilFactory.reportXhrProgress(xhr, 'TEXTURE', inx));
                         },
                         function (xhr) {
                             $log.error(utilFactory.reportXhrError(xhr, 'TEXTURE', inx));

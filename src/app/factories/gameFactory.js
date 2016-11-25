@@ -14,10 +14,10 @@
         svc.level = 0;
         svc.levelButtonText = "Start a new Game!";
 
-        svc.timemark = {}; // new Date();
+        svc.timemark = {};
 
         svc.startLevel = function () {
-            audioFactory.playNextMusicTrack();
+            audioFactory.playRndTrack('levelMusic');
             svc.startLevelTimemark = new Date();
             svc.timemark = new Date();
             svc.isScoring = true;
@@ -26,7 +26,7 @@
         };
 
         svc.updateScore = function () {
-            audioFactory.playHit();
+            audioFactory.playRndTrack('hit');            
             var timeDiff = Math.abs(svc.timemark.getTime() - new Date().getTime());
             // more points for shorter time since previous score
             svc.score += Math.round((1 / timeDiff) * 1000000);
@@ -37,7 +37,7 @@
         };
 
         svc.endLevel = function () {
-            audioFactory.playNextEndLevelMusic();
+            audioFactory.playRndTrack('endLevelMusic');
             svc.isScoring = false;
             var totalSeconds = Math.abs(svc.startLevelTimemark.getTime() - new Date().getTime()) / 1000;
             var startCnt = Math.ceil((svc.level / totalSeconds) * 10);

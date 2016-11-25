@@ -1,17 +1,12 @@
 #canvas-container {
     position: relative;
+}
+
+.audio-loading {
+    position: absolute;
+    bottom: 30%;
     text-align: center;
-}
-
-.fullscreen-button {
-    position: absolute;
-    left: 10px;
-    bottom: -23px;
-}
-
-.score-board {
-    position: absolute;
-    right: 12px;
+    width: 100%;
 }
 
 canvas {

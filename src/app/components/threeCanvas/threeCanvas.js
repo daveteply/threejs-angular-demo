@@ -77,7 +77,8 @@
                 // audio
                 audioFactory.loadAudio(threeDApiFactory.camera, threeDApiFactory.scene)
                     .then(function () {
-                        audioFactory.playNextMusicTrack();
+                        ctrl.audioComplete = true;
+                        audioFactory.playRndTrack('levelMusic', true);
                     });
             };
 

@@ -1,3 +1,6 @@
 <div id="canvas-container">
     <canvas width={{$ctrl.width}} height={{$ctrl.height}} ng-click="$ctrl.handleClick($event)"></canvas>
+    <div ng-if="!$ctrl.audioComplete" class="audio-loading">
+        Audio Loading...
+    </div>
 </div>
