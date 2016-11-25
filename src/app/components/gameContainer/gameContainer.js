@@ -4,7 +4,7 @@
 
     angular.module('3js0').component('gameContainer', {
         templateUrl: 'app/components/gameContainer/gameContainer.html',
-        controller: function ($window, $document, $element, $timeout, $scope, gameFactory, audioFactory) {
+        controller: function ($window, $document, $element, $timeout, $scope, gameFactory) {
 
             var ctrl = this;
             var _w = angular.element($window);
