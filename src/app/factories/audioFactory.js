@@ -14,7 +14,7 @@
                 {src: 'assets/audio/level/l1.mp3'},
                 {src: 'assets/audio/level/l2.mp3'},
                 {src: 'assets/audio/level/l3.mp3'},
-                {src: 'assets/audio/level/l4.mp3'},
+                {src: 'assets/audio/level/l4.mp3'}
             ],
             endLevelMusic: [
                 {src: 'assets/audio/end/el1.mp3'},
@@ -68,7 +68,7 @@
                                 resolve();
                             }
                         },
-                        function (xhr) {
+                        function (/*xhr*/) {
                             //$log.log(utilFactory.reportXhrProgress(xhr, msg, inx));
                         },
                         function (xhr) {

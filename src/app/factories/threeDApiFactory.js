@@ -98,7 +98,7 @@
                             });
                             svc.textures.push(material);
                         },
-                        function (xhr) {
+                        function (/*xhr*/) {
                             //$log.log(utilFactory.reportXhrProgress(xhr, 'TEXTURE', inx));
                         },
                         function (xhr) {
